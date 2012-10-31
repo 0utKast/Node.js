@@ -1,0 +1,10 @@
+In this folder:
+
+server.js: Processing POST Data server
+connect_bodyParser_server.js: Processing POST Data with Connect server
+
+form.html: HTML form as served to GET requests by server.js and 
+           connect_bodyParser_server.js
+
+
+

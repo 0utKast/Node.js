@@ -1,0 +1,10 @@
+extends layout
+
+block content
+	h1= title
+	p Welcome to #{title}
+	- soleado = false
+	- if (soleado)
+		p Hace sol. Voy a la playa.
+	- else
+		p No hace sol. Me quedo en casa.

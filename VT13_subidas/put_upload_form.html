@@ -1,0 +1,26 @@
+<form id=frm>
+  <input type=file id=userfile name=userfile><br>
+  <input type=submit>
+</form>
+<script>
+(function () { 
+  var userfile = document.getElementById('userfile'),
+    frm = document.getElementById('frm'),
+    file;
+  userfile.addEventListener('change', function () {
+    file = this.files[0];
+  });
+  frm.addEventListener('submit', function (e) {
+    e.preventDefault();
+    if (file) {
+      var xhr = new XMLHttpRequest();
+      xhr.file = file;
+      xhr.open('put', window.location, true);
+      xhr.setRequestHeader("x-uploadedfilename", file.fileName || file.name);
+      xhr.send(file);
+      file = '';
+      frm.reset();
+    }
+  });
+}());
+</script>

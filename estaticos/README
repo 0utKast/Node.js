@@ -1,0 +1,11 @@
+In this folder:
+
+server.js: Basic static file server
+favicon_gotcha_server.js : favicon handling
+
+content:
+  index.html : example html file to be served
+  styles.css : example css file to be served
+  script.js  : example script file to be served
+  
+content folder is used by server.js

@@ -1,0 +1,9 @@
+extends layout
+
+block content
+	h1= title
+	p Welcome to #{title}
+	-beatles = ['Ringo', 'George', 'Jhon', 'Paul']
+	ul
+		each beatle in beatles
+			li #{beatle}	
