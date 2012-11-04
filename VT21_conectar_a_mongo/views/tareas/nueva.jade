@@ -1,0 +1,15 @@
+
+
+meta(charset="iso-8859-1")
+h1 Vista Nueva Tarea
+
+form(method='post', action='/tareas')
+  fieldset
+    legend Incluir nueva tarea
+    div.clearfix
+      label Tarea
+      div.input
+        input(name='tarea[tarea]', class='xlarge')
+    div.actions
+      input(type='submit', value='Guardar', class='btn primary')
+      button(type='reset', class='btn') Cancelar

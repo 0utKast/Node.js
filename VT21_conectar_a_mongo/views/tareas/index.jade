@@ -1,0 +1,21 @@
+h1 Mis Tareas
+p
+  a(href='/tareas/nueva', class='btn primary') Incluir una tarea
+
+
+- if(docs.length)
+  table
+    tr
+      th Tarea
+      th
+      each tarea in docs
+        tr
+          td #{tarea.tarea}
+          td
+            a.btn(href="/tareas/#{tarea.id}/editar") Editar
+          td
+            form(method='post', action='/tareas/' + tarea.id)
+              input(name='_method', value='DELETE', type='hidden')
+              button.btn(type='submit') Borrar
+- else
+  p No tienes tareas
