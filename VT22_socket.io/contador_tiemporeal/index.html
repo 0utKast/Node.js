@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <title>Ejemplo de Socket.IO</title>
+  </head>
+  <body>
+    <h1>Ejemplo de Socket.IO</h1>
+    <h2>N&uacute;mero de Usuarios conectados</h2>
+    <p id="count"></p>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      var socket = io.connect('http://127.0.0.1:3000');
+      var count = document.getElementById('count');
+      socket.on('users', function (data) {
+        console.log('Actualizando desde el Servidor');
+        console.log('Hay ' + data.number + ' usuarios');
+        count.innerHTML = data.number
+      });
+    </script>
+
+  </body>
+</html>
