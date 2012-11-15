@@ -1,0 +1,27 @@
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <title>Ejemplo de Socket.IO</title>
+  </head>
+  <body>
+    <h1>Ejemplo de Socket.IO</h1>
+    <form id="formulario-mensaje" action="#">
+      <textarea id="mensaje" rows="4" cols="30"></textarea>
+      <input type="submit" value="Enviar mensaje" />
+    </form>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      var socket = io.connect('http://127.0.0.1:3000');
+      var mensaje = document.getElementById('mensaje');
+      $(mensaje.form).submit(function() {
+        socket.emit('message', { text: mensaje.value });
+        return false;
+      });
+      socket.on('enviar mensaje', function (data) {
+        $('form').after('<p>' + data.text + '</p>');
+      });
+    </script>
+
+  </body>
+</html>
