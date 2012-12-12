@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <title>Ejemplo de Socket.io Twitter</title>
+    <style>
+      ul.percentage { width: 100% }
+      ul.percentage li { display: block; width: 0 }
+      ul.percentage li span { float: right; display: block}
+      ul.percentage li.madrid { background: #ff0066; color: #fff}
+      ul.percentage li.barcelona { background: #000; color: #fff}
+    </style>
+  </head>
+  <body>
+    <h1>Ejemplo de Socket.io</h1>
+    <ul class="percentage">
+      <li class="madrid">
+        Madrid <span>0</span>
+      </li>
+      <li class="barcelona">
+        Barcelona <span>0</span>
+      </li>
+    </ul>
+    <ul class="tweets"></ul>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      var socket = io.connect();
+      jQuery(function ($) { 
+        var tweetList = $('ul.tweets'),
+            madridCounter = $('li.madrid'),
+            barcelonaCounter = $('li.barcelona'),
+            madridCounterPercentage = $('li.madrid span'),
+            barcelonaCounterPercentage = $('li.barcelona span');
+        socket.on('tweet', function (data) {
+          madridCounter
+            .css("width", data.madrid + '%');
+          madridCounterPercentage
+            .text(Math.round(data.madrid * 10) / 10 + '%');
+          barcelonaCounter
+            .css("width", data.barcelona + '%');
+          barcelonaCounterPercentage
+            .text(Math.round(data.barcelona * 10) / 10 + '%');
+          tweetList
+            .prepend('<li>' + data.user + ': ' + data.text + '</li>');
+        });
+      });
+    </script>
+  </body>
+</html>
