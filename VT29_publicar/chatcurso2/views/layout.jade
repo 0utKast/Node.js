@@ -1,0 +1,124 @@
+!!!
+html
+  head
+    title Node.js Chat Server
+    link(rel='stylesheet', href='/stylesheets/style.css')
+    script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js')
+    script(src='/socket.io/socket.io.js')
+    script
+      var socket = io.connect();
+      jQuery(function ($) { 
+        var users = $('.users');
+        var usersList = $('.users ul');
+        var messages = $('.messages');
+        var nickname = $('#nickname');
+        var messageForm = $('.message-box form');
+        var message = $('.message');
+        var wrapper = $('.wrapper');
+        var login = $('.login');
+        var setNicknameForm = $('.login form');
+        var showButton = $('.show');
+
+        nickname.focus(function() {
+          $(this).val('');
+        });
+
+        nickname.val("Tu Nombre de Usuario");
+
+        socket.on('nicknames', function (data) {
+          var html = '';
+          for (var i = 0; i < data.length; i++) {
+            html += '<li><span>' + data[i] + '</span></li>';
+          }
+          usersList.empty().append(html);
+        });
+
+        socket.on('announcement', function (data) {
+          messages.append('<p>' + data.message + '</p>');
+        });
+
+        socket.on('user message', function (data) {
+          messages.append('<p><strong>' + data.nick + '</strong> ' +  data.message + '</p>');
+        });
+
+        /*
+        * Configurar el nombre de usuario para un usuario
+        * Un callback es recibido desde el servidor. Si es true entonces el nombre 
+        * ya ha sido tomado. 
+        */
+        setNicknameForm.submit(function(event) {
+          event.preventDefault(); 
+          socket.emit('nickname', nickname.val(), function (data) {
+            if (data) {
+              console.log('Nombre de usuario configurado de modo correcto');
+              login.hide();
+              wrapper.show();
+            } else {
+              setNicknameForm.prepend('<p>Nombre de usuario ya tomado. Elige otro.</p>');
+            }
+          });
+        });
+
+        /*
+        * Enviar un mensaje al servidor
+        */
+        messageForm.submit(function(event) {
+          event.preventDefault(); 
+          socket.emit('user message', message.val());
+          message.val('').focus();
+        });
+
+        showButton.hover(
+          function () {
+            $(this).animate({
+                'padding-right': '+=2',
+                'margin-left': '-=2'
+              }, 150);
+            }, 
+            function () {
+              $(this).animate({
+                'padding-right': '-=2',
+                'margin-left': '+=2'
+            }, 150);
+          }
+        );
+
+
+        showButton.toggle(function() {
+          $(this)
+            .text('>')
+            .css('margin-left', '180px')
+            .attr('title', 'Hide users');
+            users.show();
+            messages.css('width', '200px');
+        }, function() {
+          $(this)
+            .text('<')
+            .css('margin-left', '331px')
+            .attr('title', 'Show users');
+            users.hide();
+            messages.css('width', '350px');
+        });
+      });
+
+
+
+
+
+body!= body
+  section.login
+    h1 Servidor de Chat Node.js
+    form
+      input(type='text', id='nickname')
+      button Enviar
+  section.wrapper
+    section.messages
+      a(title='Mostrar usuarios').show <
+    section.users
+      ul
+    section.message-box 
+      form
+        input.message
+        button Enviar
+
+
